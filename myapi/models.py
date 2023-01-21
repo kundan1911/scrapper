@@ -4,6 +4,7 @@ from django.db import models
 class Entries(models.Model):
     id=models.IntegerField(primary_key=True)
     Date_Posted=models.TextField()
+    Proptype=models.TextField(null=True)
     Link=models.TextField()
     Owner=models.TextField()
     bHK=models.TextField()
