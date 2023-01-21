@@ -1,7 +1,6 @@
 import os
 import django
 
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE','scrapper_site.settings')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'scrapper_site.settings')
 django.setup()
 
@@ -21,10 +20,11 @@ def get_date_posted(ago_count):
   return previous_d_for
 
 data = []
-# urls=[]
 cities=['Mumbai']
 property_option=['sale','Rent']
+
 i=0
+
 for pro_opt in range(0,2):
     for city_opt in range(0,1):
         url ="https://www.magicbricks.com/property-for-"+property_option[pro_opt]+"/residential-real-estate?bedroom=2,3&proptype=Multistorey-Apartment,Builder-Floor-Apartment,Penthouse,Studio-Apartment,Residential-House,Villa&cityName="+cities[city_opt]+"&language=en"
@@ -35,7 +35,6 @@ for pro_opt in range(0,2):
             soup = bs(response, 'html.parser')
             cards = soup.find_all('div', class_='mb-srp__card')
 
-           
             locality = "Null"
             furnishing = "Null"
             carpet_area = "Null"
@@ -48,7 +47,6 @@ for pro_opt in range(0,2):
             society = "Null"
             desc = "Null"
             date_posted = "Null"
-
 
             for card in cards:
                 try:
@@ -67,7 +65,6 @@ for pro_opt in range(0,2):
                         date_posted = get_date_posted(1)
                     else:
                         date_posted = posted_date.replace('Posted: ','')
-                    # print(date_posted)
                 except:
                     posted_date = "Null"
                 try: 
@@ -145,13 +142,7 @@ for pro_opt in range(0,2):
                         transaction = "Null"
                 entry=Entries(id=i,Date_Posted=date_posted,Proptype=property_option[pro_opt], Link=link, Owner=owner,bHK=bhk,Locality=locality,city=cities[city_opt],Price=price,Carpet_Area=carpet_area,Furnishing=furnishing,Bathrooms=bathrooms,Facing=facing,Status=status,Transaction=transaction,Price_Sqft=per_sqft,Floor=floor,Description=desc)
                 entry.save()
-            ###
-                #  print(e)
                 i=i+1;
-
-            # except:
-        #     print("except")
-    # bhks = card.find('h2', class_='mb-srp__card--title').text
     
    
    
