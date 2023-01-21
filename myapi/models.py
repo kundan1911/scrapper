@@ -2,14 +2,14 @@ from django.db import models
 
 # Create your models here.
 class Entries(models.Model):
-    id=models.IntegerField(primary_key=True)
+    Id=models.IntegerField(primary_key=True)
     Date_Posted=models.TextField()
     Proptype=models.TextField(null=True)
     Link=models.TextField()
     Owner=models.TextField()
-    bHK=models.TextField()
+    BHK=models.TextField()
     Locality=models.TextField()
-    city=models.TextField()
+    City=models.TextField()
     Price=models.TextField()
     Carpet_Area=models.TextField()
     Furnishing=models.TextField()
