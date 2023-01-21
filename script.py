@@ -20,15 +20,19 @@ def get_date_posted(ago_count):
   return previous_d_for
 
 data = []
-cities=['Mumbai']
+cities=['Mumbai', 'Gurgaon','Noida','Ghaziabad','Greater-Noida','Bangalore','Pune','Hyderabad','Kolkata','Chennai',
+        'New-Delhi','Ahmedabad','Navi-Mumbai','Thane','Faridabad','Bhubaneswar','Bokaro-Steel-City','Vijayawada','Vrindavan', 'Bhopal',
+        'Gorakhpur','Jamshedpur','Agra','Allahabad','Jodhpur''Aurangabad','Jaipur','Mangalore','Nagpur','Guntur','Navsari','Palghar','Salem','Haridwar','Durgapur',
+        'Madurai','Manipal','Patna','Ranchi','Raipur','Sonipat','Kottayam','Kozhikode','Thrissur','Tirupati','Trivandrum','Trichy','Udaipur','Vapi','Varanasi',
+        'Vadodara','Visakhapatnam','Surat','Kanpur','Kochi','Mysore','Goa','Bhiwadi','Lucknow','Nashik','Guwahati','Chandigarh','Indore','Coimbatore','Dehradun']
 
 i=0
 
-for city_opt in range(0,1):
-    url ="https://www.magicbricks.com/property-for-sale/residential-real-estate?bedroom=2,3&proptype=Multistorey-Apartment,Builder-Floor-Apartment,Penthouse,Studio-Apartment,Residential-House,Villa&cityName="+cities[city_opt]+"&language=en"
-    for pgNo in range(0,11):
-        url =url+"&page="+str(pgNo)
-        response = requests.get(url)
+for city_opt in cities:
+    URL ="https://www.magicbricks.com/property-for-sale/residential-real-estate?bedroom=2,3&proptype=Multistorey-Apartment,Builder-Floor-Apartment,Penthouse,Studio-Apartment,Residential-House,Villa&cityName="+city_opt+"&language=en"
+    for pgNo in range(0, 11):
+        URL = URL+"&page="+str(pgNo)
+        response = requests.get(URL)
         response = response.content
         soup = bs(response, 'html.parser')
         cards = soup.find_all('div', class_='mb-srp__card')
@@ -138,7 +142,7 @@ for city_opt in range(0,1):
                         transaction = elem.text.replace('Transaction', '')
                 except:
                     transaction = "Null"
-            entry=Entries(Id=i, Date_Posted=date_posted, Proptype='sale', Link=link, Owner=owner, BHK=bhk, Locality=locality, City=cities[city_opt], Price=price, Carpet_Area=carpet_area, Furnishing=furnishing, Bathrooms=bathrooms, Facing=facing, Status=status, Transaction=transaction, Price_Sqft=per_sqft, Floor=floor, Description=desc)
+            entry=Entries(Id=i, Date_Posted=date_posted, Proptype='sale', Link=link, Owner=owner, BHK=bhk, Locality=locality, City=city_opt, Price=price, Carpet_Area=carpet_area, Furnishing=furnishing, Bathrooms=bathrooms, Facing=facing, Status=status, Transaction=transaction, Price_Sqft=per_sqft, Floor=floor, Description=desc)
             entry.save()
             i=i+1
     
