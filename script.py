@@ -138,9 +138,9 @@ for city_opt in range(0,1):
                         transaction = elem.text.replace('Transaction', '')
                 except:
                     transaction = "Null"
-            entry=Entries(id=i, Date_Posted=date_posted, Proptype='sale', Link=link, Owner=owner, bHK=bhk, Locality=locality, city=cities[city_opt], Price=price, Carpet_Area=carpet_area, Furnishing=furnishing, Bathrooms=bathrooms, Facing=facing, Status=status, Transaction=transaction, Price_Sqft=per_sqft, Floor=floor, Description=desc)
+            entry=Entries(Id=i, Date_Posted=date_posted, Proptype='sale', Link=link, Owner=owner, BHK=bhk, Locality=locality, City=cities[city_opt], Price=price, Carpet_Area=carpet_area, Furnishing=furnishing, Bathrooms=bathrooms, Facing=facing, Status=status, Transaction=transaction, Price_Sqft=per_sqft, Floor=floor, Description=desc)
             entry.save()
-            i=i+1;
+            i=i+1
     
    
    
