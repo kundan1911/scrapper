@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Entries
-# Register your models here
 
-admin.site.register(Entries)
+# Register your models here.
+from .models import *
+# Register your models here
+all_models=[res_rent_model,res_pg_model,res_sale_model,comm_lease_model,comm_sale_model]
+admin.site.register(all_models)
