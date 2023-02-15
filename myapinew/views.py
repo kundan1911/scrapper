@@ -19,6 +19,7 @@ from .models import res_sale_model,res_pg_model,res_rent_model,comm_lease_model,
 # models for every type of sector(sale ,rent ,PG etc)
 
 today = datetime.datetime.today().strftime ('%Y-%m-%d')
+already_push=1
 def get_date_posted(ago_count):
   Previous_Date = datetime.datetime.today() - datetime.timedelta(days=ago_count)
   previous_d_for = Previous_Date.strftime ('%d/%m/%Y')
@@ -26,12 +27,12 @@ def get_date_posted(ago_count):
 
 
 # the required cities data 
-cities=['Mumbai', 'Gurgaon','Noida','Ghaziabad','Greater-Noida','Bangalore','Pune','Hyderabad','Kolkata','Chennai',
-        'New-Delhi','Ahmedabad','Navi-Mumbai','Thane','Faridabad','Bhubaneswar','Bokaro-Steel-City','Vijayawada','Vrindavan', 'Bhopal',
-        'Gorakhpur','Jamshedpur','Agra','Allahabad','Jodhpur''Aurangabad','Jaipur','Mangalore','Nagpur','Guntur','Navsari','Palghar','Salem','Haridwar','Durgapur',
-        'Madurai','Manipal','Patna','Ranchi','Raipur','Sonipat','Kottayam','Kozhikode','Thrissur','Tirupati','Trivandrum','Trichy','Udaipur','Vapi','Varanasi',
-        'Vadodara','Visakhapatnam','Surat','Kanpur','Kochi','Mysore','Goa','Bhiwadi','Lucknow','Nashik','Guwahati','Chandigarh','Indore','Coimbatore','Dehradun']
-# cities=['Mumbai']
+#cities=['Mumbai', 'Gurgaon','Noida','Ghaziabad','Greater-Noida','Bangalore','Pune','Hyderabad','Kolkata','Chennai',
+        # 'New-Delhi','Ahmedabad','Navi-Mumbai','Thane','Faridabad','Bhubaneswar','Bokaro-Steel-City','Vijayawada','Vrindavan', 'Bhopal',
+        # 'Gorakhpur','Jamshedpur','Agra','Allahabad','Jodhpur''Aurangabad','Jaipur','Mangalore','Nagpur','Guntur','Navsari','Palghar','Salem','Haridwar','Durgapur',
+        # 'Madurai','Manipal','Patna','Ranchi','Raipur','Sonipat','Kottayam','Kozhikode','Thrissur','Tirupati','Trivandrum','Trichy','Udaipur','Vapi','Varanasi',
+        # 'Vadodara','Visakhapatnam','Surat','Kanpur','Kochi','Mysore','Goa','Bhiwadi','Lucknow','Nashik','Guwahati','Chandigarh','Indore','Coimbatore','Dehradun']
+cities=['Mumbai']
 
 def str_sale_dt_db():
     i=0
@@ -581,32 +582,284 @@ def str_comm_lease_dt_db():
                 entry=comm_lease_model(Id=i, Date_Posted=date_posted, Proptype='Commercial Sale', Link=link, Retailer=owner, BHK=bhk, Locality=locality, City=city_opt, Price=price, Carpet_Area=carpet_area, Washroom=washroom, Facing=facing, Water_Availability=water, Property_Age=prop_age, Price_Sqft=per_sqft, Parking=parking, Pantry=pantry, Description=desc)
                 entry.save()
                 i=i+1
+
+def str_no_broker_rent():
+    url = "https://www.nobroker.in/flats-for-rent-in-mumbai_mumbai"
+    response = requests.get(url)
+    response = response.content
+    soup = bs(response, 'html.parser')
+    cards = soup.find_all('div', class_='bg-white')
+
+    link = "Null"
+    rent = "Null"
+    emi = "Null"
+    sqft = "Null"
+    apt_type = "Null"
+    bathrooms = "Null"
+    parking = "Null"
+    i=0;
+    print(len(cards))
+    for card in cards:
+        amenities = []
+        try: 
+            link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
+            # print(link)
+        except:
+            link = "Null"
+
+        try: 
+            rent = card.find('div', {"id" : "minDeposit"})
+            rent = rent.find('div', {'class' : 'flex'}).text.replace('₹', '').replace('No Extra Maintenance', ' No Extra Maintenance')
+            # print(rent)
+        except:
+            rent = "Null"
+
+        try: 
+            deposit = card.find('div', {"id" : "roomType"}).text.replace('₹', '')
+            # print(deposit)
+        except:
+            deposit = "Null"
+
+        try: 
+            sqft = card.find('div', {"id" : "minRent"})
+            sqft = sqft.find('div', {"class" : "flex"}).text
+            # print(sqft)
+        except:
+            sqft = "Null"
+
+        try: 
+            nearby = card.find('div', {"class" : "mt-0.5p"}).text
+            # print(nearby)
+        except:
+            nearby = "Null"
+
+        feats = card.find_all('div', {"class" : "font-semibold"})
+
+        for feat in feats:
+            amenities.append(feat.text)
+        if len(amenities) != 0:
+            furnishing = amenities[0]
+            # print(furnishing)
+            apt_type = amenities[1]
+            # print(apt_type)
+            tenants = amenities[2]
+            # print(tenants)
+            avail = amenities[3]
+            # print(avail)
+
+        if link != "Null":
+            res = requests.get(link)
+            res = res.content
+            s = bs(res, 'html.parser')
+            extras = s.find('div', class_='nb__2czcg')
+
+        try:
+            bedrooms = extras.find('h4', {'id' : 'details-summary-typeDesc'}).text
+            # print(bedrooms)
+        except:
+            bedrooms = "Null"
+
+        try:
+            prop_type = extras.find('h4', {'id' : 'details-summary-buildingType'}).text
+            # print(prop_type)
+        except:
+            prop_type = "Null"
         
+        try:
+            parking = extras.find('h4', {'id' : 'details-summary-parkingDesc'}).text
+            # print(parking)
+        except:
+            parking = "Null"
+
+        try:
+            posted_on = extras.find('h4', {'id' : 'details-summary-lastUpdateDate'}).text
+            # print(posted_on)
+        except:
+            posted_on = "Null"
+
+        try:
+            possesion = extras.find('h4', {'id' : 'details-summary-availableFrom'}).text
+            # print(possesion)
+        except:
+            possesion = "Null"
+
+        try:
+            balcony = extras.find('h4', {'id' : 'details-summary-balconies'}).text
+            # print(balcony)
+        except:
+            balcony = "Null"
+
+        try:
+            # data.append([posted_on, link, rent, deposit, nearby, sqft, furnishing, avail, prop_type, tenants, apt_type, parking, bedrooms, possesion, balcony])
+            entry=no_broker_rent_model(Id=i, Date_Posted=posted_on, Link=link, Rent=rent, EMI=deposit, Nearby=nearby, SQFT=sqft, Furnishing=furnishing, Available_from=avail, Prop_Type=prop_type, Preferred_Tenants=tenants, Apt_Type=apt_type, Parking=parking, Bedrooms=bedrooms, Possesion_By=possesion, Balcony=balcony)
+            entry.save()
+            i=i+1
+        except:
+            pass
+
+
+
+def str_no_broker_sale():
+    url = "https://www.nobroker.in/flats-for-sale-in-mumbai_mumbai"
+    response = requests.get(url)
+    response = response.content
+    soup = bs(response, 'html.parser')
+    cards = soup.find_all('div', class_='bg-white')
+
+    link = "Null"
+    price = "Null"
+    emi = "Null"
+    sqft = "Null"
+    facing = "Null"
+    apt_type = "Null"
+    bathrooms = "Null"
+    parking = "Null"
+    print(len(cards))
+
+    i=0;
+    for card in cards:
+        amenities = []
+        try: 
+            link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
+            print(link)
+        except:
+            link = "Null"
+
+        try: 
+            price = card.find('div', {"class" : "font-semi-bold"})
+            price = price.find('span').text.replace('₹', '')
+            print(price)
+        except:
+            price = "Null"
+
+        try:
+            emi = card.find('div', {"id" : "roomType"}).text.replace('₹', '')
+            print(emi)
+        except:
+            emi = "Null"
+
+        try: 
+            sqft = card.find('div', {"id" : "unitCode"}).text.replace('₹', '')
+            print(sqft)
+        except:
+            sqft = "Null"
+
+        feats = card.find_all('div', {"class" : "font-semibold"})
+
+        for feat in feats:
+            amenities.append(feat.text)
+        if len(amenities) != 0:
+            facing = amenities[0]
+            apt_type = amenities[1]
+            bathrooms = amenities[2]
+            parking = amenities[3]
+
+        try: 
+            nearby = card.find('div', {"class" : "mt-0.5p"}).text
+            print(nearby)
+        except:
+            nearby = "Null"
+
+        if link != "Null":
+            res = requests.get(link)
+            res = res.content
+            s = bs(res, 'html.parser')
+            extras = s.find('div', class_='nb__2czcg')
+
+            try:
+                bedrooms = extras.find('h4', {'id' : 'details-summary-typeDesc'}).text
+                # print(bedrooms)
+            except:
+                bedrooms = "Null"
+            
+            try:
+                posted_on = extras.find('h4', {'id' : 'details-summary-lastUpdateDate'}).text
+            # print(posted_on)
+            except:
+                posted_on = "Null"
+
+            try:
+                possesion = extras.find('h4', {'id' : 'details-summary-availableFrom'}).text
+            # print(possesion)
+            except:
+                possesion = "Null"
+
+            try:
+                balcony = extras.find('h4', {'id' : 'details-summary-balconies'}).text
+            # print(balcony)
+            except:
+                balcony = "Null"
+
+            try:
+                apt_name = extras.find('h4', {'id' : 'details-summary-society'}).text
+            # print(apt_name)
+            except:
+                apt_name = "Null"
+
+            try:
+                pwr_backup = extras.find('h4', {'id' : 'details-summary-powerBackup'}).text
+            # print(pwr_backup)
+            except:
+                pwr_backup = "Null"
+
+            try:
+                # 'Id','Date_Posted', 'Link', 'Price', 'EMI', 'Nearby', 'SQFT', 'Facing', 'Bathrooms', 'Apt_Type', 'Apt_Name', 'Parking', 'Bedrooms', 'Possesion_By', 'Balcony', 'Power_Backup'
+                # data.append([posted_on, link, price, emi, nearby, sqft, facing, bathrooms, apt_type, apt_name, parking, bedrooms, possesion, balcony, pwr_backup])
+                entry=no_broker_sale_model(Id=i, Date_Posted=posted_on, Link=link, Price=price, EMI=emi, Nearby=nearby, SQFT=sqft, Facing=facing, Bathrooms=bathrooms, Apt_Type=apt_type, Apt_Name=apt_name, Parking=parking, Bedrooms=bedrooms, Possesion_By=possesion, Balcony=balcony,Power_Backup=pwr_backup)
+                entry.save()
+                i=i+1
+            except:
+                pass
+
 # classes to view the data 
 # the corresponding function will scrap and populate the database as the url is hit
 class resSaleViewSet(viewsets.ModelViewSet):
-    str_sale_dt_db()
+    print(already_push)
+    if already_push==1 :
+        str_sale_dt_db()
     queryset=res_sale_model.objects.all()
     serializer_class=resSaleSerializer
 
 class resRentViewSet(viewsets.ModelViewSet):
-    str_rent_dt_db()
+    print(already_push)
+    if already_push==1 :
+        str_rent_dt_db()
     queryset=res_rent_model.objects.all()
     serializer_class=resRentSerializer
 
 class resPgViewSet(viewsets.ModelViewSet):
-    str_pg_dt_db()
+    print(already_push)
+    if already_push==1 :
+        str_pg_dt_db()
     queryset=res_pg_model.objects.all()
     serializer_class=resPgSerializer
 
 class commSaleViewSet(viewsets.ModelViewSet):
-    str_comm_sale_dt_db()
+    print(already_push)
+    if already_push==1 :
+        str_comm_sale_dt_db()
     queryset=comm_sale_model.objects.all()
     serializer_class=commSaleSerializer
 
 class commLeaseViewSet(viewsets.ModelViewSet):
-    str_comm_lease_dt_db()
+    print(already_push)
+    if already_push==1 :
+        str_comm_lease_dt_db()
     queryset=comm_lease_model.objects.all()
     serializer_class=commLeaseSerializer
 
+
+class noBrokerRent(viewsets.ModelViewSet):
+    print(already_push)
+    if already_push==1 :
+        str_no_broker_rent()
+    queryset=no_broker_rent_model.objects.all()
+    serializer_class=noBrokerRentSerializer
+
+class noBrokerSale(viewsets.ModelViewSet):
+    print(already_push)
+    if already_push==1 :
+        str_no_broker_sale()
+    queryset=no_broker_sale_model.objects.all()
+    serializer_class=noBrokerSaleSerializer
 

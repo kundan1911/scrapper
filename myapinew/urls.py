@@ -9,6 +9,8 @@ router.register(r'res_rent_model', views.resRentViewSet)
 router.register(r'res_pg_model', views.resPgViewSet)
 router.register(r'comm_sale_model', views.commSaleViewSet)
 router.register(r'comm_lease_model', views.commLeaseViewSet)
+router.register(r'nobrokerRent', views.noBrokerRent)
+router.register(r'nobrokerSale', views.noBrokerSale)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [

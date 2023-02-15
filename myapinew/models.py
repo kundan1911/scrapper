@@ -105,3 +105,49 @@ class comm_lease_model(models.Model):
 
     def __str__(self):
         return self.Owner
+    
+class no_broker_rent_model(models.Model):
+    Id=models.IntegerField(primary_key=True)
+    Date_Posted=models.TextField(null=True)
+    Link=models.TextField()
+    Rent=models.TextField()
+    EMI=models.TextField()
+    Nearby=models.TextField(null=True)
+    SQFT=models.TextField()
+    Furnishing=models.TextField()
+    Available_from=models.TextField()
+    Prop_Type=models.TextField()
+    Preferred_Tenants=models.TextField()
+    Apt_Type=models.TextField()
+    Parking=models.TextField()
+    Bedrooms=models.TextField()
+    Possesion_By=models.TextField()
+    Balcony=models.TextField()
+    
+    def __str__(self):
+        return self.Owner
+    
+class no_broker_sale_model(models.Model):
+    Id=models.IntegerField(primary_key=True)
+    Date_Posted=models.TextField(null=True)
+    Link=models.TextField()
+    Price=models.TextField()
+    EMI=models.TextField()
+    Nearby=models.TextField(null=True)
+    SQFT=models.TextField()
+    Facing=models.TextField()
+    Bathrooms=models.TextField()
+    Apt_Type=models.TextField()
+    Apt_Name=models.TextField()
+    Parking=models.TextField()
+    Bedrooms=models.TextField()
+    Possesion_By=models.TextField()
+    Balcony=models.TextField()
+    Power_Backup=models.TextField()
+    
+    def __str__(self):
+        return self.Owner
+    
+
+
+

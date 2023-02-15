@@ -35,3 +35,16 @@ class commLeaseSerializer(serializers.HyperlinkedModelSerializer):
         fields=('Id', 'Date_Posted', 'Link', 'Proptype', 'Retailer', 'BHK', 'Locality', 'City', 'Price', 'Carpet_Area', 'Washroom', 'Facing', 'Water_Availability', 'Pantry', 'Price_Sqft', 'Property_Age', 'Parking', 'Description')
 
 
+class noBrokerRentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model=no_broker_rent_model
+        fields=('Id','Date_Posted', 'Link', 'Rent', 'EMI', 'Nearby', 'SQFT', 'Furnishing', 'Available_from', 'Prop_Type', 'Preferred_Tenants', 'Apt_Type', 'Parking', 'Bedrooms', 'Possesion_By', 'Balcony');
+
+
+class noBrokerSaleSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model=no_broker_sale_model
+        fields=('Id','Date_Posted', 'Link', 'Price', 'EMI', 'Nearby', 'SQFT', 'Facing', 'Bathrooms', 'Apt_Type', 'Apt_Name', 'Parking', 'Bedrooms', 'Possesion_By', 'Balcony', 'Power_Backup');
+
+
+
