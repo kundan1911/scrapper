@@ -7,7 +7,7 @@ class resSaleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=res_sale_model
         fields=('Id','Date_Posted','Proptype','Link', 'Owner', 'BHK', 'Locality', 'City', 'Price', 'Carpet_Area', 'Furnishing', 'Bathrooms', 'Facing', 'Status', 'Transaction', 'Price_Sqft', 'Floor', 'Description')
-# Id=i, Date_Posted=date_posted, Proptype='sale', Link=link, Owner=owner, BHK=bhk, Locality=locality, City=city_opt, Price=price, Carpet_Area=carpet_area, Furnishing=furnishing, Bathrooms=bathrooms, Facing=facing, Status=status, Transaction=transaction, Price_Sqft=per_sqft, Floor=floor, Description=desc
+
 
 class resRentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -46,5 +46,20 @@ class noBrokerSaleSerializer(serializers.HyperlinkedModelSerializer):
         model=no_broker_sale_model
         fields=('Id','Date_Posted', 'Link', 'Price', 'EMI', 'Nearby', 'SQFT', 'Facing', 'Bathrooms', 'Apt_Type', 'Apt_Name', 'Parking', 'Bedrooms', 'Possesion_By', 'Balcony', 'Power_Backup');
 
+class noBrokerCommRentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model=no_broker_comm_rent_model
+        fields=('Date_Posted', 'Link', 'Rent', 'Deposit', 'Nearby', 'SQFT', 'Floor', 'Prop_Type', 'Furnishing', 'Availability', 'Parking');
+
+class noBrokerCommSaleSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model=no_broker_comm_sale_model
+        fields=('Date_Posted', 'Link', 'Price', 'EMI', 'Nearby', 'SQFT', 'Facing', 'Bathrooms', 'Apt_Type', 'Parking');
+
+
+class noBrokerPgSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model=no_broker_pg_model
+        fields=('Date_Posted', 'Link', 'Rent', 'Deposit', 'Room_Type', 'Preferred_Tenants', 'Food','Parking','Possesion_By');
 
 

@@ -603,33 +603,33 @@ def str_no_broker_rent():
         amenities = []
         try: 
             link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
-            # print(link)
+           
         except:
             link = "Null"
 
         try: 
             rent = card.find('div', {"id" : "minDeposit"})
             rent = rent.find('div', {'class' : 'flex'}).text.replace('₹', '').replace('No Extra Maintenance', ' No Extra Maintenance')
-            # print(rent)
+            
         except:
             rent = "Null"
 
         try: 
             deposit = card.find('div', {"id" : "roomType"}).text.replace('₹', '')
-            # print(deposit)
+            
         except:
             deposit = "Null"
 
         try: 
             sqft = card.find('div', {"id" : "minRent"})
             sqft = sqft.find('div', {"class" : "flex"}).text
-            # print(sqft)
+            
         except:
             sqft = "Null"
 
         try: 
             nearby = card.find('div', {"class" : "mt-0.5p"}).text
-            # print(nearby)
+           
         except:
             nearby = "Null"
 
@@ -639,13 +639,13 @@ def str_no_broker_rent():
             amenities.append(feat.text)
         if len(amenities) != 0:
             furnishing = amenities[0]
-            # print(furnishing)
+            
             apt_type = amenities[1]
-            # print(apt_type)
+           
             tenants = amenities[2]
-            # print(tenants)
+            
             avail = amenities[3]
-            # print(avail)
+           
 
         if link != "Null":
             res = requests.get(link)
@@ -655,42 +655,41 @@ def str_no_broker_rent():
 
         try:
             bedrooms = extras.find('h4', {'id' : 'details-summary-typeDesc'}).text
-            # print(bedrooms)
+            
         except:
             bedrooms = "Null"
 
         try:
             prop_type = extras.find('h4', {'id' : 'details-summary-buildingType'}).text
-            # print(prop_type)
+            
         except:
             prop_type = "Null"
         
         try:
             parking = extras.find('h4', {'id' : 'details-summary-parkingDesc'}).text
-            # print(parking)
+           
         except:
             parking = "Null"
 
         try:
             posted_on = extras.find('h4', {'id' : 'details-summary-lastUpdateDate'}).text
-            # print(posted_on)
+            
         except:
             posted_on = "Null"
 
         try:
             possesion = extras.find('h4', {'id' : 'details-summary-availableFrom'}).text
-            # print(possesion)
+         
         except:
             possesion = "Null"
 
         try:
             balcony = extras.find('h4', {'id' : 'details-summary-balconies'}).text
-            # print(balcony)
+           
         except:
             balcony = "Null"
 
         try:
-            # data.append([posted_on, link, rent, deposit, nearby, sqft, furnishing, avail, prop_type, tenants, apt_type, parking, bedrooms, possesion, balcony])
             entry=no_broker_rent_model(Id=i, Date_Posted=posted_on, Link=link, Rent=rent, EMI=deposit, Nearby=nearby, SQFT=sqft, Furnishing=furnishing, Available_from=avail, Prop_Type=prop_type, Preferred_Tenants=tenants, Apt_Type=apt_type, Parking=parking, Bedrooms=bedrooms, Possesion_By=possesion, Balcony=balcony)
             entry.save()
             i=i+1
@@ -721,26 +720,26 @@ def str_no_broker_sale():
         amenities = []
         try: 
             link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
-            print(link)
+      
         except:
             link = "Null"
 
         try: 
             price = card.find('div', {"class" : "font-semi-bold"})
             price = price.find('span').text.replace('₹', '')
-            print(price)
+           
         except:
             price = "Null"
 
         try:
             emi = card.find('div', {"id" : "roomType"}).text.replace('₹', '')
-            print(emi)
+       
         except:
             emi = "Null"
 
         try: 
             sqft = card.find('div', {"id" : "unitCode"}).text.replace('₹', '')
-            print(sqft)
+            
         except:
             sqft = "Null"
 
@@ -756,7 +755,7 @@ def str_no_broker_sale():
 
         try: 
             nearby = card.find('div', {"class" : "mt-0.5p"}).text
-            print(nearby)
+
         except:
             nearby = "Null"
 
@@ -768,48 +767,319 @@ def str_no_broker_sale():
 
             try:
                 bedrooms = extras.find('h4', {'id' : 'details-summary-typeDesc'}).text
-                # print(bedrooms)
+               
             except:
                 bedrooms = "Null"
             
             try:
                 posted_on = extras.find('h4', {'id' : 'details-summary-lastUpdateDate'}).text
-            # print(posted_on)
+          
             except:
                 posted_on = "Null"
 
             try:
                 possesion = extras.find('h4', {'id' : 'details-summary-availableFrom'}).text
-            # print(possesion)
+         
             except:
                 possesion = "Null"
 
             try:
                 balcony = extras.find('h4', {'id' : 'details-summary-balconies'}).text
-            # print(balcony)
+   
             except:
                 balcony = "Null"
 
             try:
                 apt_name = extras.find('h4', {'id' : 'details-summary-society'}).text
-            # print(apt_name)
+            
             except:
                 apt_name = "Null"
 
             try:
                 pwr_backup = extras.find('h4', {'id' : 'details-summary-powerBackup'}).text
-            # print(pwr_backup)
+           
             except:
                 pwr_backup = "Null"
 
             try:
-                # 'Id','Date_Posted', 'Link', 'Price', 'EMI', 'Nearby', 'SQFT', 'Facing', 'Bathrooms', 'Apt_Type', 'Apt_Name', 'Parking', 'Bedrooms', 'Possesion_By', 'Balcony', 'Power_Backup'
-                # data.append([posted_on, link, price, emi, nearby, sqft, facing, bathrooms, apt_type, apt_name, parking, bedrooms, possesion, balcony, pwr_backup])
+                
                 entry=no_broker_sale_model(Id=i, Date_Posted=posted_on, Link=link, Price=price, EMI=emi, Nearby=nearby, SQFT=sqft, Facing=facing, Bathrooms=bathrooms, Apt_Type=apt_type, Apt_Name=apt_name, Parking=parking, Bedrooms=bedrooms, Possesion_By=possesion, Balcony=balcony,Power_Backup=pwr_backup)
                 entry.save()
                 i=i+1
             except:
                 pass
+
+
+
+
+def str_no_broker_comm_rent():
+    j=0;
+    for i in range(1, 8):
+        url = "https://www.nobroker.in/commercial-properties-for-rent-in-mumbai_mumbai-page-"+str(i)
+        response = requests.get(url)
+        response = response.content
+        soup = bs(response, 'html.parser')
+        cards = soup.find_all('div', class_='bg-white')
+
+        link = "Null"
+        price = "Null"
+        emi = "Null"
+        sqft = "Null"
+        facing = "Null"
+        apt_type = "Null"
+        bathrooms = "Null"
+        parking = "Null"
+        print("CR ",len(cards))
+        for card in cards:
+            amenities = []
+            try: 
+                link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
+               
+            except:
+                link = "Null"
+
+            try: 
+                rent = card.find('div', {"id" : "minimumRent"})
+                rent = rent.find('div', {'class' : 'flex'}).text.replace('₹', '').replace('No Extra Maintenance', ' No Extra Maintenance')
+                
+            except:
+                rent = "Null"
+
+            try:
+                deposit = card.find('div', {"id" : "roomType"}).text.replace('₹', '')
+                
+            except:
+                deposit = "Null"
+
+            try: 
+                sqft = card.find('div', {"id" : "unitCode"}).text.replace('₹', '').replace('sqft', ' sqft')
+               
+            except:
+                sqft = "Null"
+
+            feats = card.find_all('div', {"class" : "font-semibold"})
+
+            for feat in feats:
+                amenities.append(feat.text)
+            if len(amenities) != 0:
+                prop_type = amenities[0]
+                parking = amenities[1]
+                furnishing = amenities[2]
+                avail = amenities[3]
+
+            try: 
+                nearby = card.find('div', {"class" : "mt-0.5p"}).text
+                
+            except:
+                nearby = "Null"
+
+            if link != "Null":
+                res = requests.get(link)
+                res = res.content
+                s = bs(res, 'html.parser')
+                extras = s.find('div', class_='nb__2czcg')
+                
+                try:
+                    floor = extras.find('h4', {'id' : 'details-summary-floor'}).text
+                
+                except:
+                    floor = "Null"
+
+                try:
+                    posted_on = extras.find('h4', {'id' : 'details-summary-activationDate'}).text
+                
+                except:
+                    posted_on = "Null"
+
+            try:
+                entry=no_broker_comm_rent_model(Id=j, Date_Posted=posted_on, Link=link, Rent=rent, Deposit=deposit, Nearby=nearby, SQFT=sqft, Floor=floor, Prop_Type=prop_type, Furnishing=furnishing, Availability=avail, Parking=parking)
+                entry.save()
+                j=j+1
+            except:
+                pass
+
+
+def str_no_broker_comm_sale():
+    j=0
+    for i in range(1, 8):
+        url = "https://www.nobroker.in/commercial-properties-for-sale-in-mumbai_mumbai-page-"+str(i)
+        response = requests.get(url)
+        response = response.content
+        soup = bs(response, 'html.parser')
+        cards = soup.find_all('div', class_='bg-white')
+        
+        ownership_type="NUll"
+        link = "Null"
+        price = "Null"
+        emi = "Null"
+        sqft = "Null"
+        facing = "Null"
+        apt_type = "Null"
+        bathrooms = "Null"
+        parking = "Null"
+       
+        for card in cards:
+            amenities = []
+            try: 
+                link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
+          
+            except:
+                link = "Null"
+
+            try: 
+                price = card.find('div', {"class" : "font-semi-bold"})
+                price = price.find('span').text.replace('₹', '')
+    
+            except:
+                price = "Null"
+
+            try:
+                emi = card.find('div', {"id" : "roomType"}).text.replace('₹', '')
+               
+            except:
+                emi = "Null"
+
+            try: 
+                sqft = card.find('div', {"id" : "unitCode"}).text.replace('₹', '').replace('sqft', 'sqft ')
+          
+            except:
+                sqft = "Null"
+
+            feats = card.find_all('div', {"class" : "font-semibold"})
+
+            for feat in feats:
+                amenities.append(feat.text)
+
+            if len(amenities) != 0:
+                prop_type = amenities[0]
+                parking = amenities[1]
+                furnishing = amenities[2]
+                avail = amenities[3]
+
+            try: 
+                nearby = card.find('div', {"class" : "mt-0.5p"}).text
+               
+            except:
+                nearby = "Null"
+
+            if link != "Null":
+                res = requests.get(link)
+                res = res.content
+                s = bs(res, 'html.parser')
+                extras = s.find('div', class_='nb__2czcg')
+            try:
+
+                ownership_type = extras.find('h4', {'id' : 'details-summary-ownershipType'}).text
+
+            except:
+                ownership_type = "Null"
+            
+            try:
+                floor = extras.find('h4', {'id' : 'details-summary-floor'}).text
+           
+            except:
+                floor = "Null"
+
+            try:
+                posted_on = extras.find('h4', {'id' : 'details-summary-availableFrom'}).text
+ 
+            except:
+                posted_on = "Null"
+
+            try:
+                
+                entry=no_broker_comm_sale_model(Id=j, Date_Posted=posted_on, Link=link, Price=price, EMI=emi, Nearby=nearby, SQFT=sqft, Facing=facing,Bathrooms=bathrooms,Apt_Type=apt_type, Parking=parking)
+                entry.save()
+                j=j+1
+            except:
+                pass
+
+def str_no_broker_pg():
+    j=0
+    for i in range(1, 8):
+        url = "https://www.nobroker.in/pg-in-mumbai_mumbai-page-"+str(i)
+        response = requests.get(url)
+        response = response.content
+        soup = bs(response, 'html.parser')
+        cards = soup.find_all('div', class_='bg-white')
+
+        link = "Null"
+        rent = "Null"
+        emi = "Null"
+        sqft = "Null"
+        apt_type = "Null"
+        bathrooms = "Null"
+        parking = "Null"
+
+        for card in cards:
+            amenities = []
+            try: 
+                link = 'http://nobroker.in' + card.find('a', class_='overflow-hidden')['href']
+                
+            except:
+                link = "Null"
+
+            try: 
+                deposit = card.find('div', {"id" : "minDeposit"})
+                deposit = rent.find('div', {'class' : 'flex'}).text.replace('₹', '').replace('No Extra Maintenance', ' No Extra Maintenance')
+                
+            except:
+                deposit = "Null"
+
+            try: 
+                room_type = card.find('div', {"id" : "roomType"}).text
+                
+            except:
+                room_type = "Null"
+
+            try: 
+                rent = card.find('div', {"id" : "unitCode"}).text.replace('₹', '')
+            except:
+                rent = "Null"
+
+            try: 
+                nearby = card.find('div', {"class" : "mt-0.5p"}).text
+            except:
+                nearby = "Null"
+
+            feats = card.find_all('div', {"class" : "font-semibold"})
+
+            for feat in feats:
+                amenities.append(feat.text)
+            if len(amenities) != 0:
+                tenants = amenities[0]
+
+                food = amenities[2]
+
+            if link != "Null":
+                res = requests.get(link)
+                res = res.content
+                s = bs(res, 'html.parser')
+                extras = s.find('div', class_='nb__2czcg')
+            
+            try:
+                parking = extras.find('h4', {'id' : 'details-summary-parkingDesc'}).text
+            except:
+                parking = "Null"
+
+            try:
+                posted_on = extras.find('h4', {'id' : 'details-summary-lastUpdateDate'}).text
+            except:
+                posted_on = "Null"
+
+            try:
+                possesion = extras.find('h4', {'id' : 'details-summary-availableFrom'}).text
+            except:
+                possesion = "Null"
+
+            try:
+                
+                entry=no_broker_pg_model(Id=j, Date_Posted=posted_on, Link=link, Rent=rent, Deposit=deposit, Nearby=nearby, Room_Type=room_type, Preferred_Tenants=tenants,Food=food, Parking=parking,Possesion_By=possesion)
+                entry.save()
+                j=j+1
+            except:
+                pass
+            
 
 # classes to view the data 
 # the corresponding function will scrap and populate the database as the url is hit
@@ -863,3 +1133,24 @@ class noBrokerSale(viewsets.ModelViewSet):
     queryset=no_broker_sale_model.objects.all()
     serializer_class=noBrokerSaleSerializer
 
+
+class noBrokerCommRent(viewsets.ModelViewSet):
+    print(already_push)
+    if already_push==1 :
+        str_no_broker_comm_rent()
+    queryset=no_broker_comm_rent_model.objects.all()
+    serializer_class=noBrokerCommRentSerializer
+
+class noBrokerCommSale(viewsets.ModelViewSet):
+    print(already_push)
+    if already_push==1 :
+        str_no_broker_comm_sale()
+    queryset=no_broker_comm_sale_model.objects.all()
+    serializer_class=noBrokerCommSaleSerializer
+
+class noBrokerPg(viewsets.ModelViewSet):
+    print(already_push)
+    if already_push==1 :
+        str_no_broker_pg()
+    queryset=no_broker_pg_model.objects.all()
+    serializer_class=noBrokerPgSerializer

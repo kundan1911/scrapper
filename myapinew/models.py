@@ -149,5 +149,50 @@ class no_broker_sale_model(models.Model):
         return self.Owner
     
 
+class no_broker_comm_rent_model(models.Model):
+    Id=models.IntegerField(primary_key=True)
+    Date_Posted=models.TextField(null=True)
+    Link=models.TextField()
+    Rent=models.TextField()
+    Deposit=models.TextField()
+    Nearby=models.TextField(null=True)
+    SQFT=models.TextField()
+    Floor=models.TextField()
+    Prop_Type=models.TextField()
+    Furnishing=models.TextField()
+    Availability=models.TextField()
+    Parking=models.TextField()
+ 
+    def __str__(self):
+        return self.Owner
 
+class no_broker_comm_sale_model(models.Model):
+    Id=models.IntegerField(primary_key=True)
+    Date_Posted=models.TextField(null=True)
+    Link=models.TextField()
+    Price=models.TextField()
+    EMI=models.TextField()
+    Nearby=models.TextField(null=True)
+    SQFT=models.TextField()
+    Facing=models.TextField()
+    Bathrooms=models.TextField()
+    Apt_Type=models.TextField()
+    Parking=models.TextField()
+ 
+    def __str__(self):
+        return self.Owner
 
+class no_broker_pg_model(models.Model):
+    Id=models.IntegerField(primary_key=True)
+    Date_Posted=models.TextField(null=True)
+    Link=models.TextField()
+    Rent=models.TextField()
+    Deposit=models.TextField()
+    Nearby=models.TextField(null=True)
+    Room_Type=models.TextField()
+    Preferred_Tenants=models.TextField()
+    Food=models.TextField()
+    Parking=models.TextField()
+    Possesion_By=models.TextField()
+    def __str__(self):
+        return self.Owner
