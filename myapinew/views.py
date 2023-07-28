@@ -282,45 +282,48 @@ def str_pg_dt_db():
         date_posted = 'Null'
 
         for card in cards:
-            pg_for = card.find('span', class_='m-srp-card__info__gender').text
-
             try:
-                link = card.find(attrs={'itemprop': 'url'})
-                link = 'https://www.magicbricks.com/' + link.get('content')
+                pg_for = card.find('span', class_='m-srp-card__info__gender').text
+
+                try:
+                    link = card.find(attrs={'itemprop': 'url'})
+                    link = 'https://www.magicbricks.com/' + link.get('content')
+                except:
+                    link = None
+
+                res = requests.get(link)
+                res = res.content
+                res_soup = bs(res, 'html.parser')
+
+                dep_amt = res_soup.find('div', class_='pg-prop-details__info__grid--value').text.replace('₹', '')
+
+                try: 
+                    pg_name = card.find('meta', attrs={'itemprop': 'name'})
+                    pg_name = pg_name.get('content')
+                except:
+                    pg_name = None
+                try: 
+                    desc = card.find('meta', attrs={'itemprop': 'description'})
+                    desc = desc.get('content')
+                except:
+                    desc = None
+
+                charges = card.find('div', class_='m-srp-card__price').text.replace('₹', '')
+                charges = charges.replace('\\n', '')
+                charges = charges[0:8] + 'Onwards'
+
+                try: 
+                    temp = card.find('span', attrs={'class': 'hidden'})
+                    posted_by = temp.get('data-advname')
+                    sharing_type = temp.get('data-avail').replace('\\', '')
+                    locality = temp.get('data-pglocality')
+                except:
+                    pass
+                entry=res_pg_model(Id=i, Posted_by=posted_by, PG_for=pg_for, Proptype='PG', Link=link, Owner=pg_name, City=city_opt, Locality=locality, Charges=charges, Description=desc)
+                entry.save()
+                i=i+1
             except:
-                link = None
-
-            res = requests.get(link)
-            res = res.content
-            res_soup = bs(res, 'html.parser')
-
-            dep_amt = res_soup.find('div', class_='pg-prop-details__info__grid--value').text.replace('₹', '')
-
-            try: 
-                pg_name = card.find('meta', attrs={'itemprop': 'name'})
-                pg_name = pg_name.get('content')
-            except:
-                pg_name = None
-            try: 
-                desc = card.find('meta', attrs={'itemprop': 'description'})
-                desc = desc.get('content')
-            except:
-                desc = None
-
-            charges = card.find('div', class_='m-srp-card__price').text.replace('₹', '')
-            charges = charges.replace('\\n', '')
-            charges = charges[0:8] + 'Onwards'
-
-            try: 
-                temp = card.find('span', attrs={'class': 'hidden'})
-                posted_by = temp.get('data-advname')
-                sharing_type = temp.get('data-avail').replace('\\', '')
-                locality = temp.get('data-pglocality')
-            except:
-                pass
-            entry=res_pg_model(Id=i, Posted_by=posted_by, PG_for=pg_for, Proptype='PG', Link=link, Owner=pg_name, City=city_opt, Locality=locality, Charges=charges, Description=desc)
-            entry.save()
-            i=i+1
+                break
 
 def str_comm_sale_dt_db():   
    
